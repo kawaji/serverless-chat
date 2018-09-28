@@ -142,3 +142,35 @@ function init() {
 }
 
 init();
+
+function uploadFiles(files) {
+    for (var i = 0, f; f = files[i]; i++) {
+      console.log("upload " + f.name);
+      uploadFile(f);
+    }
+}
+
+function uploadFile(file) {
+    var bucketName = 'serverless-chat-images';
+    var bucket = new AWS.S3({
+        params: {
+            Bucket: bucketName
+        }
+    });
+
+    var objKey = 'testing/' + file.name;
+    var params = {
+        Key: objKey,
+        ContentType: file.type,
+        Body: file,
+        ACL: 'public-read'
+    };
+
+    bucket.putObject(params, function(err, data) {
+        if (err) {
+            console.log("upload fail!!" + err)
+        } else {
+            console.log("upload success!!")
+        }
+    });
+}
