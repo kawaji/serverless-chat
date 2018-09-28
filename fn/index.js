@@ -12,7 +12,7 @@ const iotdata = new AWS.IotData({endpoint: AWS_IOT_ENDPOINT});
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 const htmlPage = `
-<html>
+<html lang="ja">
 
 <head>
   <title>Chat</title>
@@ -38,13 +38,13 @@ const htmlContent = `
     <form role="form" id="lineForm" class="form-horizontal">
         <div class="form-group">
             <div class="col-xs-2">
-                <input type="text" class="form-control" id="user" placeholder="Your name">
+                <input type="text" class="form-control" id="user" placeholder="名前">
             </div>
             <div class="col-xs-8">
-                <input type="text" class="form-control" id="line" placeholder="Your message...">
+                <input type="text" class="form-control" id="line" placeholder="Aa">
             </div>
             <div class="col-xs-2">
-                <button type="submit" class="btn btn-default" id="submitButton">Send</button>
+                <button type="submit" class="btn btn-default" id="submitButton">送信</button>
             </div>
         </div>
     </form>
@@ -191,7 +191,7 @@ function clientConnected(data) {
         htmlContent: htmlContent,
         windowTitle: WINDOW_TITLE,
         room: data.path,
-        messages: [ { text: 'Welcome to chat room ' + data.path } ]
+        messages: [ { text: 'ようこそ！ ' + data.path } ]
     };
 
     sendMessage(clientTopic, message);
@@ -220,7 +220,7 @@ function processHttpRequest(req, callback) {
             "Content-Type": "text/html"
         },
         body: htmlPage.replace("%CONTENT%",
-            '<div id="messages" class="col-xs-12"><div class="page-header"><h1>Loading chat room ' +
+            '<div id="messages" class="col-xs-12"><div class="page-header"><h1>ロード中... ' +
             req.path + ' ...</h1></div></div>'
         )
     };
