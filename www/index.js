@@ -2,6 +2,8 @@ const AWS_REGION = '<AWS_REGION>';
 const AWS_IDENTITY_POOL_ID = '<AWS_IDENTITY_POOL_ID>';
 const AWS_IOT_ENDPOINT = '<AWS_IOT_ENDPOINT>';
 const APP_NAME = 'chat';
+const IMAGE_BUCKET = 'serverless-chat-images';
+const IMAGE_URL_PREFIX = 'https://s3.amazonaws.com/' + IMAGE_BUCKET;
 
 var store = {}; // To be used for "global" variables
 
@@ -151,7 +153,7 @@ function uploadFiles(files) {
 }
 
 function uploadFile(file) {
-    var bucketName = 'serverless-chat-images';
+    var bucketName = IMAGE_BUCKET;
     var bucket = new AWS.S3({
         params: {
             Bucket: bucketName
@@ -170,7 +172,8 @@ function uploadFile(file) {
         if (err) {
             console.log("upload fail!!" + err)
         } else {
-            console.log("upload success!!")
+            console.log("upload success!!");
+            console.log(IMAGE_URL_PREFIX + "/" + objKey);
         }
     });
 }
