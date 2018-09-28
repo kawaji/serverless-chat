@@ -173,9 +173,24 @@ function uploadFile(file) {
             console.log("upload fail!!" + err)
         } else {
             console.log("upload success!!");
-            console.log(IMAGE_URL_PREFIX + "/" + objKey);
+            var uploadUrl = IMAGE_URL_PREFIX + "/" + objKey;
+            console.log(uploadUrl);
+            sendUploadMessage(uploadUrl);
         }
     });
+}
+
+function sendUploadMessage(url) {
+    var userElement = document.getElementById('user');
+    var user = 'unknown';
+    if (userElement.value !== '') {
+        user = userElement.value;
+    }
+
+    localStorage.setItem(store.room, JSON.stringify({ user: user }));
+    store.sendMessage({ room: store.room, message: { user: user, text: url }});
+
+    console.log('sendUploadMessage');
 }
 
 function uuid() {
